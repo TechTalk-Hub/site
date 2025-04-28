@@ -1,0 +1,28 @@
+---
+const { theme } = Astro.props
+---
+
+<button id="theme-toggle" class="focus:outline-none">
+  <i
+    id="moonIcon"
+    class={theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
+</button>
+
+<script>
+  // 主题切换功能
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const moonIcon = document.getElementById("moonIcon");
+    if (currentTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", "light");
+      moonIcon?.classList.remove("fa-sun");
+      moonIcon?.classList.add("fa-moon");
+    } else {
+      document.documentElement.setAttribute("data-theme", "dark");
+      moonIcon?.classList.remove("fa-moon");
+      moonIcon?.classList.add("fa-sun");
+    }
+  }
+  const themeToggleBtn = document.getElementById("theme-toggle");
+  themeToggleBtn?.addEventListener("click", toggleTheme);
+</script>

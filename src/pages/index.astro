@@ -1,16 +1,121 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
+// 可以在这里设置默认语言和主题
+const lang = "en";
+const theme = "light";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout lang={lang} theme={theme}>
+	<!-- 英雄区域 -->
+	<section class="py-20" style="animation: fadeIn 1s ease-in-out;">
+		<div class="container mx-auto px-4 text-center">
+			<h1
+				class="text-4xl font-bold mb-4"
+				data-lang-en="Welcome to TechTalk Hub"
+				data-lang-zh="欢迎来到技术交流中心"
+			>
+				{lang === "en" ? "Welcome to TechTalk Hub" : "欢迎来到技术交流中心"}
+			</h1>
+			<p
+				class="text-lg mb-8"
+				data-lang-en="A platform for technical discussions and knowledge sharing."
+				data-lang-zh="一个用于技术讨论和知识分享的平台。"
+			>
+				{
+					lang === "en"
+						? "A platform for technical discussions and knowledge sharing."
+						: "一个用于技术讨论和知识分享的平台。"
+				}
+			</p>
+			<a
+				href="#"
+				class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition-transform transform hover:scale-105"
+				data-lang-en="Learn More"
+				data-lang-zh="了解更多"
+			>
+				{lang === "en" ? "Learn More" : "了解更多"}
+			</a>
+		</div>
+	</section>
+
+	<!-- 特色区域 -->
+	<section class="py-20" style="animation: fadeIn 1s ease-in-out;">
+		<div class="container mx-auto px-4">
+			<h2
+				class="text-3xl font-bold text-center mb-12"
+				data-lang-en="Our Features"
+				data-lang-zh="我们的特色"
+			>
+				{lang === "en" ? "Our Features" : "我们的特色"}
+			</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div
+					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+				>
+					<i class="fa-solid fa-comments text-4xl text-blue-500 mb-4"></i>
+					<h3
+						class="text-xl font-bold mb-2"
+						data-lang-en="Technical Discussions"
+						data-lang-zh="技术讨论"
+					>
+						{lang === "en" ? "Technical Discussions" : "技术讨论"}
+					</h3>
+					<p
+						data-lang-en="Engage in in-depth technical discussions with experts and enthusiasts."
+						data-lang-zh="与专家和爱好者进行深入的技术讨论。"
+					>
+						{
+							lang === "en"
+								? "Engage in in-depth technical discussions with experts and enthusiasts."
+								: "与专家和爱好者进行深入的技术讨论。"
+						}
+					</p>
+				</div>
+				<div
+					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+				>
+					<i class="fa-solid fa-book-open text-4xl text-blue-500 mb-4"></i>
+					<h3
+						class="text-xl font-bold mb-2"
+						data-lang-en="Knowledge Sharing"
+						data-lang-zh="知识分享"
+					>
+						{lang === "en" ? "Knowledge Sharing" : "知识分享"}
+					</h3>
+					<p
+						data-lang-en="Share your knowledge and learn from others in the community."
+						data-lang-zh="分享你的知识并从社区中的其他人那里学习。"
+					>
+						{
+							lang === "en"
+								? "Share your knowledge and learn from others in the community."
+								: "分享你的知识并从社区中的其他人那里学习。"
+						}
+					</p>
+				</div>
+				<div
+					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+				>
+					<i class="fa-solid fa-users text-4xl text-blue-500 mb-4"></i>
+					<h3
+						class="text-xl font-bold mb-2"
+						data-lang-en="Community Building"
+						data-lang-zh="社区建设"
+					>
+						{lang === "en" ? "Community Building" : "社区建设"}
+					</h3>
+					<p
+						data-lang-en="Build a strong community of like-minded individuals."
+						data-lang-zh="建立一个由志同道合的人组成的强大社区。"
+					>
+						{
+							lang === "en"
+								? "Build a strong community of like-minded individuals."
+								: "建立一个由志同道合的人组成的强大社区。"
+						}
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>

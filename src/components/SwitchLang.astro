@@ -1,0 +1,78 @@
+---
+const { lang } = Astro.props
+---
+
+<div class="lang-dropdown" id="langDropdown">
+  <button class="lang-btn" id="langBtn">
+    <span id="currentLang">{lang === "en" ? "English" : "中文"}</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="lang-menu hidden" id="langMenu">
+    <div class="lang-item" data-lang="en">English</div>
+    <div class="lang-item" data-lang="zh">中文</div>
+  </div>
+</div>
+
+<script>
+  // 初始化语言
+  const html = document.documentElement
+  let currentLang = html.getAttribute('lang');
+  const langBtn = document.getElementById("langBtn");
+  const currentLangSpan = langBtn?.querySelector("#currentLang")
+  const langMenu = document.getElementById("langMenu");
+  const langItems = document.querySelectorAll(".lang-item");
+  // 初始化语言显示
+  function initLanguage() {
+    updateLangText();
+    if (currentLangSpan) {
+      currentLangSpan.textContent = currentLang === "en" ? "English" : "中文";
+    }
+  }
+
+  // 更新页面文本
+  function updateLangText() {
+    const elements = document.querySelectorAll(
+      "[data-lang-en], [data-lang-zh]",
+    );
+    elements.forEach((element) => {
+      const enText = element.getAttribute("data-lang-en");
+      const zhText = element.getAttribute("data-lang-zh");
+      element.textContent = currentLang === "en" ? enText : zhText;
+    });
+  }
+
+  // 语言切换逻辑
+  function toggleLanguage(lang: string) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    if (currentLangSpan) {
+      currentLangSpan.textContent = currentLang === "en" ? "English" : "中文";
+    }
+    updateLangText();
+    langMenu?.classList.add("hidden");
+  }
+  
+  // 下拉菜单交互
+  langBtn?.addEventListener("click", () => {
+    langMenu?.classList.toggle("hidden");
+  });
+
+  langItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      if (item instanceof HTMLElement && item.dataset.lang) {
+        toggleLanguage(item.dataset.lang);
+      }
+    });
+  });
+
+  // 点击外部关闭菜单
+  document.addEventListener("click", (e: MouseEvent) => {
+    const target = e.target
+    if (!target || (target instanceof HTMLElement && !target.closest(".lang-dropdown"))) {
+      langMenu?.classList.add("hidden");
+    }
+  });
+
+  // 初始化
+  initLanguage();
+</script>
