@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import "../styles/global.css";
 import SwitchTheme from "../components/SwitchTheme.astro";
 import SwitchLang from "../components/SwitchLang.astro";
+import LogoImage from "../assets/images/github-organization-logo.png";
 // 这里可以导入其他组件或者数据
 const { lang, theme } = Astro.props;
 ---
@@ -58,11 +60,15 @@ const { lang, theme } = Astro.props;
       >
         <a
           href="#"
-          class="text-xl font-bold"
-          data-lang-en="TechTalk Hub"
-          data-lang-zh="技术交流中心"
+          class="flex gap-2 items-center text-xl font-bold"
         >
-          {lang === "en" ? "TechTalk Hub" : 'aaaa' +lang+ "技术交流中心"}
+          <Image class="w-8 h-8 rounded bg-gray-800 dark:bg-slate-50 p-1" src={LogoImage} alt="Logo" />
+          <!-- <img src={LogoImage} /> -->
+          <span 
+            data-lang-en="TechTalk Hub"
+            data-lang-zh="技术交流中心">
+            {lang === "en" ? "TechTalk Hub" : "技术交流中心"}
+          </span>
         </a>
         <div class="flex items-center space-x-4">
           <!-- 语言切换下拉菜单 -->
