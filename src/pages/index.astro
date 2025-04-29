@@ -7,7 +7,7 @@ const theme = "light";
 
 <Layout lang={lang} theme={theme}>
 	<!-- 英雄区域 -->
-	<section class="py-20" style="animation: fadeIn 1s ease-in-out;">
+	<section class="py-20">
 		<div class="container mx-auto px-4 text-center">
 			<h1
 				class="text-4xl font-bold mb-4"
@@ -39,18 +39,18 @@ const theme = "light";
 	</section>
 
 	<!-- 特色区域 -->
-	<section class="py-20" style="animation: fadeIn 1s ease-in-out;">
+	<section class="py-20">
 		<div class="container mx-auto px-4">
 			<h2
 				class="text-3xl font-bold text-center mb-12"
-				data-lang-en="Our Features"
-				data-lang-zh="我们的特色"
+				data-lang-en="What are we doing?"
+				data-lang-zh="我们正在做什么？"
 			>
-				{lang === "en" ? "Our Features" : "我们的特色"}
+				{lang === "en" ? "What are we doing?" : "我们正在做什么？"}
 			</h2>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 				<div
-					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+					class="bg-slate-100 dark:bg-gray-800 transition-[background-color] p-6 rounded-md shadow-md hover:shadow-lg animate-in fade-in slide-in-from-bottom-50 duration-500 delay-0"
 				>
 					<i class="fa-solid fa-comments text-4xl text-blue-500 mb-4"></i>
 					<h3
@@ -72,7 +72,7 @@ const theme = "light";
 					</p>
 				</div>
 				<div
-					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+					class="bg-slate-100 dark:bg-gray-800 transition-[background-color] p-6 rounded-md shadow-md hover:shadow-lg animate-in fade-in slide-in-from-bottom-50 duration-500 delay-100"
 				>
 					<i class="fa-solid fa-book-open text-4xl text-blue-500 mb-4"></i>
 					<h3
@@ -94,7 +94,7 @@ const theme = "light";
 					</p>
 				</div>
 				<div
-					class="card p-6 rounded-md shadow-md hover:shadow-lg transition-shadow"
+					class="bg-slate-100 dark:bg-gray-800 transition-[background-color] p-6 rounded-md shadow-md hover:shadow-lg animate-in fade-in slide-in-from-bottom-50 duration-500 delay-200"
 				>
 					<i class="fa-solid fa-users text-4xl text-blue-500 mb-4"></i>
 					<h3
