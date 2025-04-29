@@ -1,0 +1,43 @@
+---
+import BackToPrev from "../../components/BackToPrev.astro";
+import BackToTop from "../../components/BackToTop.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from 'astro:content';
+
+// 可以在这里设置默认语言和主题
+const lang = "en";
+const theme = "light";
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id }, props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const data = post.data
+---
+
+<Layout lang={lang} theme={theme}>
+  <!-- <div class="banner">
+    <p>{data.pubDate.toString().slice(0,10)}</p>
+    <p><em>{data.description}</em></p>
+    <p>作者：{data.author}</p>
+    <img src={data.image.url} width="300" alt={data.image.alt} />
+  </div> -->
+  <article class="mx-auto max-w-screen-sm p-5 flex flex-col gap-4">
+    <header>
+      <BackToPrev href="/blog">
+        Back to blog
+      </BackToPrev>
+    </header>
+    <main class="prose">
+      <Content />
+    </main>
+    <footer class="flex justify-center">
+      <BackToTop></BackToTop>
+    </footer>
+  </article>
+</Layout>

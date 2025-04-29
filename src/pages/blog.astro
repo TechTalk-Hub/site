@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import { collections } from '../content.config'
+// 可以在这里设置默认语言和主题
+const lang = "en";
+const theme = "light";
+
+const allPosts = await getCollection("blog");
+---
+
+<Layout lang={lang} theme={theme}>
+  <div class="mx-auto max-w-screen-sm p-5 flex flex-col gap-4">
+    <ul class="grid gap-16">
+      {
+        allPosts.map((post) => (
+          <li>
+            <a href={`/posts/${post.id}`}>
+              <div class="grid grid-cols-2 gap-5 items-center">
+                <img class="max-w-3xs object-cover rounded-xl" src={post.data.image.url} alt="">
+                <section>
+                  <h3 class="text-3xl font-semibold leading-snug tracking-tight">{ post.data.title }</h3>
+                  <p class="text-gray-400">{ post.data.pubDate }</p>
+                </section>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Laoyout>
