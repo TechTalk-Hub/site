@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import { collections } from '../content.config'
+import { Image } from "astro:assets";
 // 可以在这里设置默认语言和主题
 const lang = "en";
 const theme = "light";
@@ -16,11 +17,21 @@ const allPosts = await getCollection("blog");
         allPosts.map((post) => (
           <li>
             <a href={`/posts/${post.id}`}>
-              <div class="grid grid-cols-2 gap-5 items-center">
-                <img class="max-w-3xs object-cover rounded-xl" src={post.data.image.url} alt="">
+              <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
+                <Image class="object-cover rounded-xl" src={post.data.image.url} alt="" />
                 <section>
                   <h3 class="text-3xl font-semibold leading-snug tracking-tight">{ post.data.title }</h3>
-                  <p class="text-gray-400">{ post.data.pubDate }</p>
+                  <div class="flex gap-2 mt-3">
+                      <span class="text-gray-400">
+                        {post.data.author}
+                      </span>
+                      <span class="text-gray-400">• </span>
+                      <time
+                        class="text-gray-400"
+                        datetime={post.data.pubDate.toISOString()}>
+                        {post.data.pubDate.toDateString()}
+                      </time>
+                    </div>
                 </section>
               </div>
             </a>
