@@ -27,6 +27,7 @@ const data = post.data
     <p>作者：{data.author}</p>
     <img src={data.image.url} width="300" alt={data.image.alt} />
   </div> -->
+  <div id="process-bar" class="fixed z-10 left-0 top-0 w-full h-1 shadow-md bg-green-500"></div>
   <article class="mx-auto max-w-screen-sm p-5 flex flex-col gap-4">
     <header>
       <BackToPrev href="/blog">
@@ -41,3 +42,20 @@ const data = post.data
     </footer>
   </article>
 </Layout>
+
+<style>
+  @keyframes grow-process {
+    0% {
+      transform: scaleX(0);
+    }
+
+    100% {
+      transform: scaleX(1);
+    }
+  }
+  #process-bar {
+    transform-origin: 0% 50%;
+    animation: grow-process auto linear;
+    animation-timeline: scroll();
+  }
+</style>
