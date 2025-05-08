@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import { collections } from '../content.config'
 
-import PostItem from "../components/PostItem.astro";
+import PostItemList from "../components/PostItemList";
+import MotionList from "../components/MotionList";
 // 可以在这里设置默认语言和主题
 const lang = "en";
 const theme = "light";
@@ -13,14 +13,6 @@ const allPosts = await getCollection("blog");
 
 <Layout lang={lang} theme={theme}>
   <div class="mx-auto max-w-screen-sm p-5 flex flex-col gap-4">
-    <ul class="grid gap-16">
-      {
-        allPosts.map((post) => (
-          <li>
-            <PostItem post={post} />
-          </li>
-        ))
-      }
-    </ul>
+    <PostItemList posts={allPosts} client:only="react"/>
   </div>
 </Laoyout>
