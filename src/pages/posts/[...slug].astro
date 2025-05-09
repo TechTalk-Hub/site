@@ -19,8 +19,6 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const data = post.data
-
-console.log(headings)
 ---
 
 <Layout lang={lang} theme={theme}>
@@ -28,9 +26,6 @@ console.log(headings)
   <div class="flex justify-center">
     <div class="max-w-screen-sm p-5 flex flex-col gap-4">
       <header class="flex flex-col gap-4">
-        <BackToPrev href="/blog">
-          Back to blog
-        </BackToPrev>
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-semibold pt-8">{remarkPluginFrontmatter.title}</h1>
           <div class="flex gap-2 text-gray-400 text-sm">
@@ -56,6 +51,9 @@ console.log(headings)
     </div>
     <div class="min-w-xs flex flex-col">
       <div class="sticky top-16 flex flex-col gap-4 p-5">
+        <BackToPrev href="/blog">
+          Back to blog
+        </BackToPrev>
         <h2 class="text-xl font-semibold">Table of Contents</h2>
         <ul class="flex flex-col gap-2">
           {headings.map((heading) => (
