@@ -18,7 +18,8 @@ const { lang, theme } = Astro.props;
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
+    <!-- 不知道为什么要加这个 -->
+    <style is:global>
       /* 平滑滚动 */
       html {
         scroll-behavior: smooth;
@@ -49,6 +50,29 @@ const { lang, theme } = Astro.props;
 
       .card {
         background-color: var(--card-bg);
+      }
+
+      .code-copy-button {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        background-color: #4a5568;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+
+      .code-copy-button:hover {
+        opacity: 1;
+      }
+
+      pre {
+        position: relative;
       }
     </style>
   </head>
@@ -99,5 +123,50 @@ const { lang, theme } = Astro.props;
         </p>
       </div>
     </footer>
+
+    <script>
+      // 等待页面加载完成
+      document.addEventListener('DOMContentLoaded', () => {
+        // 获取所有代码块
+        const codeBlocks = Array.from(document.querySelectorAll('pre'));
+        
+        // 为每个代码块添加复制按钮
+        codeBlocks.forEach((pre) => {
+          // 创建复制按钮
+          const copyButton = document.createElement('button');
+          copyButton.className = 'code-copy-button';
+          copyButton.innerText = '复制';
+          
+          // 将按钮添加到代码块中
+          pre.appendChild(copyButton);
+          
+          // 添加点击事件
+          copyButton.addEventListener('click', async () => {
+            // 获取代码内容
+            const code = pre.querySelector('code')?.innerText || pre.innerText;
+            
+            try {
+              // 复制到剪贴板
+              await navigator.clipboard.writeText(code);
+              
+              // 显示复制成功的反馈
+              copyButton.innerText = '已复制!';
+              
+              // 恢复原始文本
+              setTimeout(() => {
+                copyButton.innerText = '复制';
+              }, 2000);
+            } catch (err) {
+              console.error('复制失败:', err);
+              copyButton.innerText = '复制失败';
+              
+              setTimeout(() => {
+                copyButton.innerText = '复制';
+              }, 2000);
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
