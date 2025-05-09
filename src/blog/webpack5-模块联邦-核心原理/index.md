@@ -1,12 +1,12 @@
 ---
 title: 'webpack5-模块联邦-核心原理'
 pubDate: 2024-04-20
-description: '这是我 Astro 博客的第一篇文章。'
-author: 'Astro 学习者'
+description: '本篇内容主要是讲模块联邦的模块是如何被打包、导出到被消费者加载的核心流程，中间会涉及打包后的部分原理'
+author: 'worsmer'
 image:
     url: './webpack5.png'
     alt: 'The Astro logo on a dark background with a pink glow.'
-tags: ["astro", "blogging", "learning in public"]
+tags: ["webpack", "Moduler federation", "build tools", "ESModule"]
 ---
 👋本篇内容主要是讲模块联邦的模块是如何被打包、导出到被消费者加载的核心流程，中间会涉及打包后的部分原理。
 > 请结合本篇内容准备的Demo项目进行学习：https://github.comzepang/module-federation-practice

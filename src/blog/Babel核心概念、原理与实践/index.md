@@ -6,7 +6,7 @@ author: 'wosmer@gmail.com'
 image:
     url: './image.png'
     alt: 'About Babel pic.'
-tags: ["astro", "blogging", "learning in public"]
+tags: ["Babel", "AST", "Babel Plugin", "@babel/core", "@babel/parse", "@babel/types", "@babel/traverse", "@babel/generator",]
 ---
 
 ## Babel是什么？
