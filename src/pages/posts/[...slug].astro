@@ -3,6 +3,7 @@ import BackToPrev from "../../components/BackToPrev.astro";
 import BackToTop from "../../components/BackToTop.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets'
 
 // 可以在这里设置默认语言和主题
 const lang = "en";
@@ -16,23 +17,30 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const data = post.data
 ---
 
 <Layout lang={lang} theme={theme}>
-  <!-- <div class="banner">
-    <p>{data.pubDate.toString().slice(0,10)}</p>
-    <p><em>{data.description}</em></p>
-    <p>作者：{data.author}</p>
-    <img src={data.image.url} width="300" alt={data.image.alt} />
-  </div> -->
   <div id="process-bar" class="fixed z-10 left-0 top-0 w-full h-1 shadow-md bg-green-500"></div>
   <article class="mx-auto max-w-screen-sm p-5 flex flex-col gap-4">
-    <header>
+    <header class="flex flex-col gap-4">
       <BackToPrev href="/blog">
         Back to blog
       </BackToPrev>
+      <div class="flex flex-col gap-2">
+        <h1 class="text-3xl font-semibold pt-8">{remarkPluginFrontmatter.title}</h1>
+        <div class="flex gap-2 text-gray-400 text-sm">
+          <time
+            datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toDateString()}
+          </time>
+          <p>{remarkPluginFrontmatter.author}</p> 
+          <p>{ remarkPluginFrontmatter.words } words</p>
+          <p>{ Math.ceil(remarkPluginFrontmatter.readingMinutes) } min</p>
+        </div>
+        <Image src={data.image.url}  alt={data.image.alt} class="mx-auto" />
+      </div>
     </header>
     <main class="prose dark:prose-invert">
       <Content />
