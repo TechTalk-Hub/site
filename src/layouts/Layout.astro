@@ -5,7 +5,7 @@ import SwitchTheme from "../components/SwitchTheme.astro";
 import SwitchLang from "../components/SwitchLang.astro";
 import LogoImage from "../assets/images/github-organization-logo.png";
 // 这里可以导入其他组件或者数据
-const { lang, theme } = Astro.props;
+const { lang, theme, title = 'TechTalk Hub' } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,7 +13,7 @@ const { lang, theme } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TechTalk Hub - Landing Page</title>
+    <title>{ title }</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       rel="stylesheet"
