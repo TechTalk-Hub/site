@@ -4,6 +4,7 @@ import BackToTop from "../../components/BackToTop.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets'
+import Comments from "../../components/Comment";
 
 // 可以在这里设置默认语言和主题
 const lang = "en";
@@ -21,7 +22,7 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const data = post.data
 ---
 
-<Layout lang={lang} theme={theme}>
+<Layout lang={lang} theme={theme} title={remarkPluginFrontmatter.title}>
   <div id="process-bar" class="fixed z-10 left-0 top-0 w-full h-1 shadow-md bg-green-500"></div>
   <div class="flex justify-center">
     <div class="max-w-screen-sm p-5 flex flex-col gap-4">
@@ -49,7 +50,7 @@ const data = post.data
         <!-- <BackToTop></BackToTop> -->
       </footer>
     </div>
-    <div class="min-w-xs flex-col hidden md:flex">
+    <div class="min-w-xs max-w-xs flex-col hidden md:flex">
       <div class="sticky top-16 flex flex-col gap-4 p-5">
         <BackToPrev href="/blog">
           Back to blog
@@ -79,6 +80,10 @@ const data = post.data
         </div>
       </div>
     </div>
+  </div>
+  <!-- 评论组件 -->
+  <div class="container mx-auto">
+    <Comments client:only="react" />
   </div>
 </Layout>
 
