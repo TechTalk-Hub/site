@@ -3,6 +3,8 @@ import { Image } from "astro:assets";
 import "../styles/global.css";
 import SwitchTheme from "../components/SwitchTheme.astro";
 import SwitchLang from "../components/SwitchLang.astro";
+import ImagePreview from "../components/ImagePreview.astro";
+import CodeViewer from "../components/CodeViewer.astro";
 import LogoImage from "../assets/images/github-organization-logo.png";
 // 这里可以导入其他组件或者数据
 const { lang, theme } = Astro.props;
@@ -124,49 +126,10 @@ const { lang, theme } = Astro.props;
       </div>
     </footer>
 
-    <script>
-      // 等待页面加载完成
-      document.addEventListener('DOMContentLoaded', () => {
-        // 获取所有代码块
-        const codeBlocks = Array.from(document.querySelectorAll('pre'));
-        
-        // 为每个代码块添加复制按钮
-        codeBlocks.forEach((pre) => {
-          // 创建复制按钮
-          const copyButton = document.createElement('button');
-          copyButton.className = 'code-copy-button';
-          copyButton.innerText = '复制';
-          
-          // 将按钮添加到代码块中
-          pre.appendChild(copyButton);
-          
-          // 添加点击事件
-          copyButton.addEventListener('click', async () => {
-            // 获取代码内容
-            const code = pre.querySelector('code')?.innerText || pre.innerText;
-            
-            try {
-              // 复制到剪贴板
-              await navigator.clipboard.writeText(code);
-              
-              // 显示复制成功的反馈
-              copyButton.innerText = '已复制!';
-              
-              // 恢复原始文本
-              setTimeout(() => {
-                copyButton.innerText = '复制';
-              }, 2000);
-            } catch (err) {
-              console.error('复制失败:', err);
-              copyButton.innerText = '复制失败';
-              
-              setTimeout(() => {
-                copyButton.innerText = '复制';
-              }, 2000);
-            }
-          });
-        });
-      });
-    </script>
+    <!-- 图片预览组件 -->
+    <ImagePreview />
+    
+    <!-- 代码全屏查看组件 -->
+    <CodeViewer />
   </body>
 </html>

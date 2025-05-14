@@ -1,0 +1,116 @@
+<div id="image-preview-overlay" class="image-preview-overlay">
+  <div class="image-preview-container">
+    <span class="close-button">&times;</span>
+    <img id="preview-image" src="" alt="预览图片" />
+  </div>
+</div>
+
+<style is:global>
+  /* 图片预览覆盖层 */
+  .image-preview-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 图片容器 */
+  .image-preview-container {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  /* 预览的图片 */
+  #preview-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 关闭按钮 */
+  .close-button {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  /* 使网站上的图片有点击效果 */
+  .clickable-image {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .clickable-image:hover {
+    transform: scale(1.03);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('image-preview-overlay');
+    const previewImage = document.getElementById('preview-image') as HTMLImageElement;
+    const closeButton = document.querySelector('.close-button');
+
+    // 找到页面上所有图片（排除特定类和小图标）
+    const images = Array.from(document.querySelectorAll('img:not(.w-8):not(.h-8):not(.icon):not([src*="logo"])')) as HTMLImageElement[];
+
+    // 给每个图片添加点击事件和样式
+    images.forEach(img => {
+      // 添加可点击的样式
+      img.classList.add('clickable-image');
+
+      // 点击图片时展示大图
+      img.addEventListener('click', () => {
+        if (previewImage && overlay) {
+          // 设置预览图片的源
+          previewImage.src = img.src;
+          
+          // 显示覆盖层
+          overlay.style.display = 'flex';
+          
+          // 禁止背景滚动
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    // 点击关闭按钮或背景关闭预览
+    if (closeButton && overlay) {
+      closeButton.addEventListener('click', closePreview);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closePreview();
+        }
+      });
+    }
+
+    // 按ESC键关闭预览
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closePreview();
+      }
+    });
+
+    function closePreview() {
+      if (overlay) {
+        overlay.style.display = 'none';
+        // 恢复背景滚动
+        document.body.style.overflow = '';
+      }
+    }
+  });
+</script> 
