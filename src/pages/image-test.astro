@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+// 假设我们有一些测试图片 - 这里使用网络图片URL示例
+const testImages = [
+  "https://picsum.photos/id/237/800/600", // 狗
+  "https://picsum.photos/id/1015/800/600", // 山脉
+  "https://picsum.photos/id/1018/800/600", // 瀑布
+  "https://picsum.photos/id/1025/800/600", // 熊猫
+];
+---
+
+<Layout lang="zh" theme="light">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">图片预览功能测试</h1>
+    
+    <p class="mb-6">点击下方任何图片可查看大图。测试图片点击放大功能。</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {testImages.map((src, index) => (
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <img 
+            src={src} 
+            alt={`测试图片 ${index + 1}`} 
+            class="w-full h-60 object-cover"
+          />
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">测试图片 {index + 1}</h3>
+            <p class="text-gray-700 dark:text-gray-300">点击这张图片查看大图预览效果</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <div class="mt-10 mb-6">
+      <h2 class="text-2xl font-bold mb-4">Markdown 内容中的图片</h2>
+      <div class="prose dark:prose-invert max-w-none">
+        <p>这里演示文章内容中嵌入的图片：</p>
+        
+        <img src="https://picsum.photos/id/1019/1000/600" alt="风景图片" class="my-4" />
+        
+        <p>上面的图片应该也可以点击查看大图。这是一个测试段落，用于展示图片预览功能在实际内容中的使用效果。</p>
+      </div>
+    </div>
+    
+    <div class="mt-6">
+      <a href="/" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        返回首页
+      </a>
+    </div>
+  </div>
+</Layout> 

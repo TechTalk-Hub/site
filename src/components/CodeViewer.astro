@@ -1,0 +1,323 @@
+---
+---
+
+<div id="code-fullscreen-overlay" class="code-fullscreen-overlay">
+  <div class="code-fullscreen-container">
+    <div class="code-fullscreen-header">
+      <span class="code-language" id="code-language"></span>
+      <button class="code-fullscreen-copy">复制</button>
+      <span class="code-fullscreen-close">&times;</span>
+    </div>
+    <pre class="code-fullscreen-pre">
+      <code id="fullscreen-code" class="code-fullscreen-code"></code>
+    </pre>
+  </div>
+</div>
+
+<style is:global>
+  /* 全屏代码覆盖层 */
+  .code-fullscreen-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* 代码容器 */
+  .code-fullscreen-container {
+    width: 90%;
+    height: 90%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  /* 头部区域 */
+  .code-fullscreen-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #2d2d2d;
+    border-bottom: 1px solid #444;
+  }
+
+  /* 语言标识 */
+  .code-language {
+    margin-right: auto;
+    color: #aaa;
+    font-family: monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* 全屏模式下的复制按钮 */
+  .code-fullscreen-copy {
+    margin-right: 15px;
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+  }
+
+  .code-fullscreen-copy:hover {
+    opacity: 1;
+    background-color: #5a6577;
+  }
+  
+  .code-fullscreen-copy:active {
+    transform: scale(0.97);
+  }
+
+  /* 复制按钮 */
+  .code-copy-button {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+
+  .code-copy-button:hover {
+    opacity: 1;
+    background-color: #5a6577;
+  }
+  
+  .code-copy-button:active {
+    transform: scale(0.97);
+  }
+
+  /* 关闭按钮 */
+  .code-fullscreen-close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0 5px;
+  }
+
+  .code-fullscreen-close:hover {
+    color: white;
+  }
+
+  /* 代码区域 */
+  .code-fullscreen-pre {
+    flex: 1;
+    margin: 0;
+    padding: 20px;
+    border-radius: 0;
+    overflow: auto;
+    background-color: #1a1a1a;
+  }
+
+  .code-fullscreen-code {
+    font-family: 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+    white-space: pre;
+    tab-size: 4;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* 全屏按钮 */
+  .code-fullscreen-button {
+    position: absolute;
+    top: 0.5em;
+    right: 4.5em; /* 放在复制按钮的左侧 */
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+
+  .code-fullscreen-button:hover {
+    opacity: 1;
+    background-color: #5a6577;
+  }
+  
+  .code-fullscreen-button:active {
+    transform: scale(0.97);
+  }
+  
+  /* 确保代码块正确定位按钮 */
+  pre {
+    position: relative;
+    overflow-x: auto;
+  }
+  
+  /* 当全屏模式激活时，隐藏原代码块上的按钮 */
+  body.fullscreen-active pre .code-copy-button,
+  body.fullscreen-active pre .code-fullscreen-button {
+    display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 获取全屏覆盖层和相关元素
+    const overlay = document.getElementById('code-fullscreen-overlay');
+    const fullscreenCode = document.getElementById('fullscreen-code');
+    const closeButton = document.querySelector('.code-fullscreen-close');
+    const copyButton = document.querySelector('.code-fullscreen-copy');
+    const languageDisplay = document.getElementById('code-language');
+    
+    // 获取所有代码块
+    const codeBlocks = Array.from(document.querySelectorAll('pre'));
+    
+    // 为每个代码块添加按钮
+    codeBlocks.forEach((pre) => {
+      // 只有当代码块没有按钮时才添加
+      if (!pre.querySelector('.code-fullscreen-button') && !pre.querySelector('.code-copy-button')) {
+        // 创建全屏按钮
+        const fullscreenButton = document.createElement('button');
+        fullscreenButton.className = 'code-fullscreen-button';
+        fullscreenButton.innerText = '全屏';
+        
+        // 创建复制按钮
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'code-copy-button';
+        copyBtn.innerText = '复制';
+        
+        // 将按钮添加到代码块中
+        pre.appendChild(fullscreenButton);
+        pre.appendChild(copyBtn);
+        
+        // 全屏按钮点击事件
+        fullscreenButton.addEventListener('click', () => {
+          // 获取代码内容
+          const code = pre.querySelector('code');
+          if (!code && !fullscreenCode) return;
+          
+          // 获取代码语言
+          let language = '';
+          if (code) {
+            // 从类名中提取语言，例如 language-javascript
+            const classList = Array.from(code.classList);
+            const langClass = classList.find(cls => cls.startsWith('language-'));
+            if (langClass) {
+              language = langClass.replace('language-', '');
+            }
+          }
+          
+          // 显示语言
+          if (languageDisplay) {
+            languageDisplay.textContent = language || 'text';
+          }
+          
+          // 复制代码内容到全屏视图
+          if (fullscreenCode && code) {
+            fullscreenCode.className = code.className; // 保留语法高亮
+            fullscreenCode.innerHTML = code.innerHTML; // 复制包含语法高亮的HTML
+          } else if (fullscreenCode) {
+            fullscreenCode.textContent = pre.textContent; // 复制纯文本
+          }
+          
+          // 显示全屏覆盖层
+          if (overlay) {
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // 禁止背景滚动
+            document.body.classList.add('fullscreen-active'); // 添加全屏激活类
+          }
+        });
+        
+        // 复制按钮点击事件
+        copyBtn.addEventListener('click', async () => {
+          const codeText = pre.querySelector('code')?.innerText || pre.innerText;
+          
+          try {
+            await navigator.clipboard.writeText(codeText);
+            copyBtn.innerText = '已复制!';
+            setTimeout(() => {
+              copyBtn.innerText = '复制';
+            }, 2000);
+          } catch (err) {
+            console.error('复制失败:', err);
+            copyBtn.innerText = '复制失败';
+            setTimeout(() => {
+              copyBtn.innerText = '复制';
+            }, 2000);
+          }
+        });
+      }
+    });
+    
+    // 点击关闭按钮关闭全屏
+    if (closeButton && overlay) {
+      closeButton.addEventListener('click', closeFullscreen);
+    }
+    
+    // 点击背景关闭全屏
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closeFullscreen();
+        }
+      });
+    }
+    
+    // 点击ESC键关闭全屏
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay && overlay.style.display === 'flex') {
+        closeFullscreen();
+      }
+    });
+    
+    // 全屏模式下的复制按钮功能
+    if (copyButton && fullscreenCode) {
+      copyButton.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(fullscreenCode.textContent || '');
+          copyButton.textContent = '已复制!';
+          setTimeout(() => {
+            copyButton.textContent = '复制';
+          }, 2000);
+        } catch (err) {
+          console.error('复制失败:', err);
+          copyButton.textContent = '复制失败';
+          setTimeout(() => {
+            copyButton.textContent = '复制';
+          }, 2000);
+        }
+      });
+    }
+    
+    function closeFullscreen() {
+      if (overlay) {
+        overlay.style.display = 'none';
+        document.body.style.overflow = ''; // 恢复背景滚动
+        document.body.classList.remove('fullscreen-active'); // 移除全屏激活类
+      }
+    }
+  });
+</script> 
