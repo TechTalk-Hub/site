@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { PostItemHoverOverlay } from "./PostItemHoverOverlay";
 
 export default function PostItem(props: { posts: Record<string, any>[] }) {
@@ -7,7 +8,11 @@ export default function PostItem(props: { posts: Record<string, any>[] }) {
     <ul className="flex flex-col">
       {
         posts.map((post) => (
-          <li>
+          <motion.li 
+            key={post.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * posts.indexOf(post) }}>
             <a href={`/posts/${post.id}`} className="relative py-8 block">
               <PostItemHoverOverlay />
               <div className="grid md:grid-cols-[1fr_2fr] gap-5 md:gap-10 items-center">
@@ -24,7 +29,7 @@ export default function PostItem(props: { posts: Record<string, any>[] }) {
                 </section>
               </div>
             </a>
-          </li>
+          </motion.li>
         ))
       }
     </ul>
