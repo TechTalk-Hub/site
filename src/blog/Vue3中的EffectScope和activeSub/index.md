@@ -1,5 +1,5 @@
 ---
-title: Vue3中的EffectScope概念
+title: Vue3中的EffectScope、activeSub概念
 pubDate: 2025-05-13
 description: '本文主要介绍Vue3中的EffectScope、activeSub概念和它的作用'
 author: 'wosmer@gmail.com'
