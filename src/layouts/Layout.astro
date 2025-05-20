@@ -6,8 +6,10 @@ import SwitchLang from "../components/SwitchLang.astro";
 import ImagePreview from "../components/ImagePreview.astro";
 import CodeViewer from "../components/CodeViewer.astro";
 import LogoImage from "../assets/images/github-organization-logo.png";
+import { NavList } from "../components/NavList";
 // 这里可以导入其他组件或者数据
 const { lang, theme, title = 'TechTalk Hub' } = Astro.props;
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -88,7 +90,7 @@ const { lang, theme, title = 'TechTalk Hub' } = Astro.props;
     <!-- 导航栏 -->
     <nav class="sticky top-0 bg-white dark:bg-gray-800 transition-[background-color] z-10">
       <div
-        class="container mx-auto px-4 py-3 flex justify-between items-center"
+        class="container mx-auto px-4 py-3 flex items-center space-x-8"
       >
         <a
           href="/"
@@ -102,12 +104,18 @@ const { lang, theme, title = 'TechTalk Hub' } = Astro.props;
             {lang === "en" ? "TechTalk Hub" : "技术交流中心"}
           </span>
         </a>
-        <div class="flex items-center space-x-4">
-          <!-- 语言切换下拉菜单 -->
-          <SwitchLang lang={lang}></SwitchLang>
+        <div class="ml-auto flex items-center gap-4">
+          <div class="hidden md:block">
+            <!-- 导航菜单 -->
+            <NavList pathname={pathname} client:load />
+          </div>
+          <div class="flex items-center space-x-2">
+            <!-- 语言切换下拉菜单 -->
+            <SwitchLang lang={lang}></SwitchLang>
 
-          <!-- 主题切换按钮 -->
-          <SwitchTheme theme={theme}></SwitchTheme>
+            <!-- 主题切换按钮 -->
+            <SwitchTheme theme={theme}></SwitchTheme>
+          </div>
         </div>
       </div>
     </nav>
